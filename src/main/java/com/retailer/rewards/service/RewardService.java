@@ -1,5 +1,6 @@
 package com.retailer.rewards.service;
 
+import java.math.BigDecimal;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,22 +30,27 @@ public class RewardService {
 	 * @param amount The purchase amount
 	 * @return The calculated reward points
 	 */
-	public int calculatePointsForAmount(double amount) {
-		if (amount < 0) {
+	public int calculatePointsForAmount(BigDecimal amount) {
+		if (amount == null) {
+			throw new InvalidTransactionException("Transaction amount cannot be null.");
+		}
+
+		if (amount.compareTo(BigDecimal.ZERO) < 0) {
 			throw new InvalidTransactionException("Transaction amount cannot be negative.");
 		}
 
 		int points = 0;
-		int intAmount = (int) Math.floor(amount);
+		int intAmount = amount.intValue();
 
 		if (intAmount > 100) {
 			points += (intAmount - 100) * 2;
-			points += 50; // Max points from the $50-$100 bracket
+			points += 50;
 		} else if (intAmount > 50) {
 			points += (intAmount - 50);
 		}
 
 		return points;
+
 	}
 
 	/**

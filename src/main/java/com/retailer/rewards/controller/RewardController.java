@@ -1,5 +1,6 @@
 package com.retailer.rewards.controller;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -50,15 +51,15 @@ public class RewardController {
 	public ResponseEntity<List<CustomerRewardSummary>> getDemoRewards() {
 		LocalDate now = LocalDate.now();
 		List<Transaction> demoTransactions = Arrays.asList(
-				// Customer 1 Data
-				new Transaction(1L, 120.00, now.minusMonths(2)), // 90 points
-				new Transaction(1L, 80.00, now.minusMonths(1)), // 30 points
-				new Transaction(1L, 40.00, now), // 0 points
+		        // Customer 1 Data
+		        new Transaction(1L, new BigDecimal("120.00"), now.minusMonths(2)),
+		        new Transaction(1L, new BigDecimal("80.00"), now.minusMonths(1)),
+		        new Transaction(1L, new BigDecimal("40.00"), now),
 
-				// Customer 2 Data
-				new Transaction(2L, 200.00, now.minusMonths(2)), // 250 points
-				new Transaction(2L, 150.00, now.minusMonths(2)), // 150 points
-				new Transaction(2L, 90.00, now) // 40 points
+		        // Customer 2 Data
+		        new Transaction(2L, new BigDecimal("200.00"), now.minusMonths(2)),
+		        new Transaction(2L, new BigDecimal("150.00"), now.minusMonths(2)),
+		        new Transaction(2L, new BigDecimal("90.00"), now)
 		);
 
 		return ResponseEntity.ok(rewardService.calculateRewards(demoTransactions));
